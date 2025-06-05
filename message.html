@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>Nachricht senden</title>
+  <meta charset="UTF-8">
+  <title>Anonyme Nachricht senden</title>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
     const supabase = createClient(
-      'https://DEINE-PROJEKT-URL.supabase.co',
-      'DEIN-ANON-SCHLÜSSEL'
-    );
+      'https://wxvpqpmmqlwogevypndw.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4dnBxcG1tcWx3b2dldnlwbmR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxMTQxMDQsImV4cCI6MjA2NDY5MDEwNH0.t7HsLa7ZS1OBUtvLiM5IStAwMZjqy_WZ2B-s2SYn32I'
+    )
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const to_user_id = urlParams.get('to');
+    const to_user_id = new URLSearchParams(location.search).get('to')
 
     async function sendMessage() {
-      const text = document.getElementById('message').value;
+      const text = document.getElementById('message').value
 
       if (!text || !to_user_id) {
-        alert('Fehlende Nachricht oder Benutzer-ID.');
-        return;
+        alert('Bitte Nachricht eingeben.')
+        return
       }
 
       const { error } = await supabase
         .from('messages')
-        .insert([{ text, to_user_id }]);
+        .insert([{ text, to_user_id }])
 
       if (error) {
-        alert('Nachricht konnte nicht gesendet werden.');
+        alert('Fehler beim Senden.')
       } else {
-        alert('Nachricht gesendet!');
-        document.getElementById('message').value = '';
+        alert('Nachricht gesendet!')
+        document.getElementById('message').value = ''
       }
     }
 
-    window.sendMessage = sendMessage;
+    window.sendMessage = sendMessage
   </script>
 </head>
 <body>
-  <h2>Schreibe eine anonyme Nachricht</h2>
-  <textarea id="message" placeholder="Deine Nachricht..." rows="5" cols="40"></textarea><br />
+  <h1>📝 Eine Nachricht senden</h1>
+  <textarea id="message" placeholder="Deine Nachricht..." rows="5" cols="40"></textarea><br>
   <button onclick="sendMessage()">Senden</button>
-  <hr />
-  <button onclick="window.location.href='index.html'">Account erstellen / Anmelden</button>
+  <hr>
+  <p>Oder willst du selbst einen Account?</p>
+  <button onclick="location.href='index.html'">Account erstellen</button>
 </body>
 </html>
